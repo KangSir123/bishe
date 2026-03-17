@@ -1,0 +1,22 @@
+# conf/dset/flute.yaml
+# @package _global_
+dset:
+  wav: D:/cn_music/demucs/music_data # 替换为你的数据集根路径（绝对路径）
+  use_musdb: false  # 禁用默认的 MUSDB 数据集（只训练自定义数据）
+  samplerate: 44100 # 和音频采样率一致
+  channels: 2       # 双声道
+  backend: soundfile # 音频读取后端（避免 sox 剪辑问题）
+  sources: ['dizi', 'other']  # 定义要分离的源：笛子 + 其他
+epochs: 360  # 训练轮数（可根据效果调整，建议先试 100-200 轮）
+max_batches: 500  # 每轮最大批次（调试时可设小，如 100）
+test:
+  every: 20  # 每 20 轮验证一次
+  sdr: true  # 验证时计算 SDR（音源分离评价指标）
+augment:
+  shift_same: true  # 数据增强：统一偏移音频
+  scale:
+    proba: 0.5      # 50% 概率缩放音量
+  remix:
+    proba: 0        # 禁用源混编（自定义数据无需此增强）
+  repitch:
+    proba: 0        # 禁用变调（保护笛子音色）
